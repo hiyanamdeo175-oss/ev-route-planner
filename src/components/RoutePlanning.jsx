@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef, useContext } from "react";
 import { MapPin, Navigation, CarFront } from "lucide-react";
 import { EVContext } from "./EVContext";
+import { useTheme } from "@mui/material/styles"; // ✅ added
+import { Paper, Box, Typography, Button } from "@mui/material"; // ✅ added
 
 const RoutePlanning = () => {
   const mapRef = useRef(null);
@@ -12,8 +14,8 @@ const RoutePlanning = () => {
   const [loading, setLoading] = useState(false);
   const [chargingMarkers, setChargingMarkers] = useState([]);
 
-  // ✅ Access & update context
-  const { setRoutePath, setNearbyStations, nearbyStations } = useContext(EVContext);
+  const theme = useTheme(); // ✅ access current dark/light theme
+  const { setRoutePath, setNearbyStations } = useContext(EVContext);
 
   useEffect(() => {
     const initMap = () => {
@@ -61,7 +63,6 @@ const RoutePlanning = () => {
     );
   };
 
-  // 🔹 Fetch charging stations along route
   const showChargingStationsAlongRoute = (route) => {
     if (!map || !window.google || !window.google.maps.places) return;
     const service = new window.google.maps.places.PlacesService(map);
@@ -69,14 +70,13 @@ const RoutePlanning = () => {
     const stations = [];
     const markers = [];
 
-    // Remove old markers first
     chargingMarkers.forEach((m) => m.setMap(null));
 
     path.forEach((point, index) => {
       if (index % 10 !== 0) return;
       const request = {
         location: point,
-        radius: 5000, // 5 km
+        radius: 5000,
         type: ["electric_vehicle_charging_station"],
       };
 
@@ -96,7 +96,9 @@ const RoutePlanning = () => {
                 position: place.geometry.location,
                 map,
                 title: place.name,
-                icon: { url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png" },
+                icon: {
+                  url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png",
+                },
               });
 
               const info = new window.google.maps.InfoWindow({
@@ -132,11 +134,10 @@ const RoutePlanning = () => {
     });
   };
 
-  // 🔹 Book slot handler
   const handleBookSlot = (station) => {
     localStorage.setItem("selectedStation", JSON.stringify(station));
     alert(`Redirecting to booking page for: ${station.name}`);
-    window.location.href = "/battery-charging"; // ✅ navigate to slot booking page
+    window.location.href = "/battery-charging";
   };
 
   const getDirections = () => {
@@ -162,7 +163,6 @@ const RoutePlanning = () => {
           setRoutePath(route.overview_path.map((p) => [p.lat(), p.lng()]));
           showChargingStationsAlongRoute(route);
 
-          // store recent searches
           setRecentSearches((prev) => {
             const updated = [...new Set([end, ...prev])].slice(0, 5);
             localStorage.setItem("recentSearches", JSON.stringify(updated));
@@ -193,15 +193,36 @@ const RoutePlanning = () => {
   }, []);
 
   return (
-    <div className="flex flex-col gap-6 p-6">
-      <div className="shadow-xl p-6 rounded-2xl border border-gray-200 bg-white">
-        <h2 className="text-xl font-semibold flex items-center gap-2 mb-4">
-          <Navigation className="text-purple-600" /> EV Route Planner
-        </h2>
+    <Box
+      sx={{
+        bgcolor: theme.palette.background.default,
+        color: theme.palette.text.primary,
+        transition: "background-color 0.3s, color 0.3s",
+        p: 3,
+        borderRadius: 3,
+      }}
+      className="flex flex-col gap-6"
+    >
+      <Paper
+        elevation={4}
+        sx={{
+          p: 3,
+          borderRadius: 3,
+          bgcolor: theme.palette.background.paper,
+          color: theme.palette.text.primary,
+        }}
+      >
+        <Typography
+          variant="h6"
+          fontWeight="bold"
+          className="flex items-center gap-2 mb-4"
+        >
+          <Navigation className="text-purple-500" /> EV Route Planner
+        </Typography>
 
         {/* Start Point */}
         <div className="flex flex-col gap-2 mb-4">
-          <label className="font-semibold text-gray-700 flex items-center gap-2">
+          <label className="font-semibold flex items-center gap-2">
             <MapPin className="text-green-600" /> Start Point:
           </label>
           <div className="flex gap-2">
@@ -210,20 +231,37 @@ const RoutePlanning = () => {
               value={start}
               onChange={(e) => setStart(e.target.value)}
               placeholder="Enter start location or coordinates"
-              className="flex-1 p-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500 outline-none"
+              className={`flex-1 p-2 rounded-md border focus:ring-2 outline-none ${
+                theme.palette.mode === "dark"
+                  ? "bg-[#1E1E1E] border-gray-700 focus:ring-green-500 text-white"
+                  : "bg-white border-gray-300 focus:ring-green-500 text-black"
+              }`}
             />
-            <button
+            <Button
               onClick={useCurrentLocation}
-              className="bg-gray-100 px-3 py-2 rounded-md hover:bg-gray-200"
+              variant="outlined"
+              sx={{
+                color: theme.palette.text.primary,
+                borderColor:
+                  theme.palette.mode === "dark" ? "#555" : "rgba(0,0,0,0.2)",
+                "&:hover": {
+                  borderColor:
+                    theme.palette.mode === "dark" ? "#777" : "rgba(0,0,0,0.4)",
+                  backgroundColor:
+                    theme.palette.mode === "dark"
+                      ? "rgba(255,255,255,0.08)"
+                      : "rgba(0,0,0,0.05)",
+                },
+              }}
             >
               📍 Use Current
-            </button>
+            </Button>
           </div>
         </div>
 
         {/* Destination */}
         <div className="flex flex-col gap-2 mb-4">
-          <label className="font-semibold text-gray-700 flex items-center gap-2">
+          <label className="font-semibold flex items-center gap-2">
             <CarFront className="text-blue-600" /> Destination:
           </label>
           <div className="flex gap-2">
@@ -232,11 +270,19 @@ const RoutePlanning = () => {
               value={end}
               onChange={(e) => setEnd(e.target.value)}
               placeholder="Enter destination"
-              className="flex-1 p-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none"
+              className={`flex-1 p-2 rounded-md border focus:ring-2 outline-none ${
+                theme.palette.mode === "dark"
+                  ? "bg-[#1E1E1E] border-gray-700 focus:ring-blue-500 text-white"
+                  : "bg-white border-gray-300 focus:ring-blue-500 text-black"
+              }`}
             />
             <select
               onChange={(e) => setEnd(e.target.value)}
-              className="p-2 rounded-md border border-gray-300"
+              className={`p-2 rounded-md border ${
+                theme.palette.mode === "dark"
+                  ? "bg-[#1E1E1E] border-gray-700 text-white"
+                  : "bg-white border-gray-300 text-black"
+              }`}
             >
               <option value="">Recent ⬇️</option>
               {recentSearches.map((place, i) => (
@@ -250,30 +296,51 @@ const RoutePlanning = () => {
 
         {/* Buttons */}
         <div className="flex gap-3">
-          <button
+          <Button
             onClick={getDirections}
             disabled={loading}
-            className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700"
+            variant="contained"
+            sx={{
+              bgcolor: "#7e22ce",
+              "&:hover": { bgcolor: "#6b21a8" },
+              color: "#fff",
+              borderRadius: "8px",
+              px: 3,
+              py: 1.2,
+            }}
           >
             🚗 {loading ? "Loading..." : "Get Directions"}
-          </button>
+          </Button>
 
-          <button
+          <Button
             onClick={startNavigation}
-            className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700"
+            variant="contained"
+            sx={{
+              bgcolor: "#16a34a",
+              "&:hover": { bgcolor: "#15803d" },
+              color: "#fff",
+              borderRadius: "8px",
+              px: 3,
+              py: 1.2,
+            }}
           >
             🧭 Start Navigation
-          </button>
+          </Button>
         </div>
-      </div>
+      </Paper>
 
-      <div
+      <Box
         ref={mapRef}
-        className="w-full h-[70vh] rounded-xl border border-gray-200 shadow-md"
-      ></div>
-    </div>
+        className="w-full h-[70vh] rounded-xl border shadow-md"
+        sx={{
+          borderColor:
+            theme.palette.mode === "dark" ? "#333" : "rgba(0,0,0,0.1)",
+        }}
+      ></Box>
+    </Box>
   );
 };
 
 export default RoutePlanning;
+
 
