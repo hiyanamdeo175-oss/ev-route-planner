@@ -1,0 +1,37 @@
+/* src/index.css */
+
+/* Reset margin/padding and set default font */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+/* Make map and page containers take full width/height */
+.page-container {
+  width: 100%;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* Optional: style input fields and buttons globally */
+input, button {
+  font-family: inherit;
+  font-size: 14px;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* Links */
+a {
+  text-decoration: none;
+  color: inherit;
+}
