@@ -1,7 +1,7 @@
 import express from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { User } from "../models/User.js";
+import { createUser, findUserByEmail, getUserPublicView } from "../models/User.js";
 
 const router = express.Router();
 
@@ -23,7 +23,7 @@ router.post("/register", async (req, res) => {
 
   try {
     // Check if user exists
-    const existing = await User.findOne({ email });
+    const existing = findUserByEmail(email);
     if (existing) {
       return res.status(409).json({ error: "A user with this email already exists." });
     }
@@ -32,7 +32,7 @@ router.post("/register", async (req, res) => {
     const passwordHash = await bcrypt.hash(password, 10);
 
     // Create user
-    const user = await User.create({
+    const user = createUser({
       name,
       email,
       passwordHash,
@@ -42,7 +42,7 @@ router.post("/register", async (req, res) => {
 
     // Respond with user (no password) + token
     const token = createToken(user);
-    const { passwordHash: _, ...userWithoutPassword } = user.toObject();
+    const userWithoutPassword = getUserPublicView(user);
 
     res.status(201).json({ user: userWithoutPassword, token });
   } catch (err) {
@@ -59,7 +59,7 @@ router.post("/login", async (req, res) => {
   }
 
   try {
-    const user = await User.findOne({ email });
+    const user = findUserByEmail(email);
     if (!user) {
       return res.status(401).json({ error: "Invalid email or password." });
     }
@@ -70,7 +70,7 @@ router.post("/login", async (req, res) => {
     }
 
     const token = createToken(user);
-    const { passwordHash: _, ...userWithoutPassword } = user.toObject();
+    const userWithoutPassword = getUserPublicView(user);
 
     res.json({ user: userWithoutPassword, token });
   } catch (err) {
