@@ -1,22 +1,16 @@
 import mongoose from "mongoose";
 
-export async function connectDB(mongoUri) {
-  const uri = mongoUri || process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/ev_route_planner";
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log("MongoDB connected");
+  } catch (error) {
+    console.error("MongoDB connection error:", error);
+    process.exit(1);
+  }
+};
 
-  mongoose.set("strictQuery", true);
-
-  await mongoose.connect(uri, {
-    maxPoolSize: 10,
-  });
-
-  // basic connection logging
-  mongoose.connection.on("connected", () => {
-    console.log("✅ MongoDB connected");
-  });
-
-  mongoose.connection.on("error", (err) => {
-    console.error("❌ MongoDB connection error", err);
-  });
-
-  return mongoose.connection;
-}
+export default connectDB;
