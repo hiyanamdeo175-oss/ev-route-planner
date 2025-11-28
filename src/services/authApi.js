@@ -1,4 +1,5 @@
-const API_BASE = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+const API_BASE =
+  import.meta.env.VITE_BACKEND_URL || "https://ev-backend-4u2p.onrender.com";
 
 export async function login(email, password) {
   const res = await fetch(`${API_BASE}/api/auth/login`, {

@@ -1,6 +1,6 @@
-// For now, talk directly to the backend running on port 5000.
-// If you deploy, change this to use VITE_BACKEND_URL.
-const API_BASE = "http://localhost:5000";
+// For now, talk directly to the deployed backend.
+// If you change environments, you can swap this to use VITE_BACKEND_URL.
+const API_BASE = "https://ev-backend-4u2p.onrender.com";
 
 async function postJson(path, body) {
   const res = await fetch(`${API_BASE}${path}`, {
