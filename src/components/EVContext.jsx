@@ -64,15 +64,22 @@ export const EVProvider = ({ children }) => {
   const [tripHistory, setTripHistory] = useState([]);
   const [totalDistance, setTotalDistance] = useState(0);
   const [avgEfficiency, setAvgEfficiency] = useState(0);
+  const [predictedEnergy, setPredictedEnergy] = useState(null);
   const [userProfile, setUserProfile] = useState(() => {
     const saved = localStorage.getItem("userProfile");
     return saved
       ? JSON.parse(saved)
       : {
-          name: "Dhruv Rabadiya",
-          email: "dhruv@example.com",
+          name: "EV Driver",
+          email: "user@example.com",
+          phone: "",
+          role: "user",
           evModel: "Tata Nexon EV",
           range: "320 km",
+          batteryHealth: "95",
+          tireHealth: "90",
+          odometerKm: "12000",
+          preferredChargeLimit: "80",
           avatar: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
         };
   });
@@ -191,6 +198,8 @@ export const EVProvider = ({ children }) => {
         recordTrip,
         totalDistance,
         avgEfficiency,
+        predictedEnergy,
+        setPredictedEnergy,
         userProfile,
         setUserProfile,
       }}

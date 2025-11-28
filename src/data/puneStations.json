@@ -1,0 +1,130 @@
+[
+  {
+    "id": 1,
+    "name": "Pune EV Supercharger",
+    "address": "Shivajinagar, Pune",
+    "latitude": 18.5204,
+    "longitude": 73.8567,
+    "connectors": ["CCS2", "Type 2"]
+  },
+  {
+    "id": 2,
+    "name": "Kharadi IT Park Chargers",
+    "address": "EON IT Park, Kharadi, Pune",
+    "latitude": 18.5511,
+    "longitude": 73.9456,
+    "connectors": ["CCS2", "AC Slow"]
+  },
+  {
+    "id": 3,
+    "name": "Viman Nagar Mall Charger",
+    "address": "Phoenix Marketcity, Viman Nagar, Pune",
+    "latitude": 18.5616,
+    "longitude": 73.9182,
+    "connectors": ["Type 2"]
+  },
+  {
+    "id": 4,
+    "name": "Lonavla Hill Charger",
+    "address": "Near Lonavla Lake, Lonavla",
+    "latitude": 18.7546,
+    "longitude": 73.4057,
+    "connectors": ["CCS2", "AC Slow"]
+  },
+  {
+    "id": 5,
+    "name": "Mumbai Coastal EV Hub",
+    "address": "Bandra Kurla Complex, Mumbai",
+    "latitude": 19.0678,
+    "longitude": 72.8670,
+    "connectors": ["CCS2", "CHAdeMO", "Type 2"]
+  },
+  {
+    "id": 6,
+    "name": "Pune Hinjewadi Phase 1 Chargers",
+    "address": "Rajiv Gandhi Infotech Park, Hinjewadi, Pune",
+    "latitude": 18.5913,
+    "longitude": 73.7389,
+    "connectors": ["CCS2", "Type 2"]
+  },
+  {
+    "id": 7,
+    "name": "Pimpri Chinchwad EV Plaza",
+    "address": "Old Mumbai-Pune Highway, Pimpri",
+    "latitude": 18.6273,
+    "longitude": 73.8057,
+    "connectors": ["CCS2", "AC Slow"]
+  },
+  {
+    "id": 8,
+    "name": "Kothrud Depot Charger",
+    "address": "Karve Road, Kothrud, Pune",
+    "latitude": 18.5074,
+    "longitude": 73.8077,
+    "connectors": ["Type 2"]
+  },
+  {
+    "id": 9,
+    "name": "Magarpatta City EV Hub",
+    "address": "Magarpatta City, Hadapsar, Pune",
+    "latitude": 18.5149,
+    "longitude": 73.9290,
+    "connectors": ["CCS2", "Type 2"]
+  },
+  {
+    "id": 10,
+    "name": "Baner High Street Chargers",
+    "address": "Baner Road, Baner, Pune",
+    "latitude": 18.5642,
+    "longitude": 73.7806,
+    "connectors": ["CCS2", "CHAdeMO"]
+  },
+  {
+    "id": 11,
+    "name": "Pune Airport EV Bay",
+    "address": "Parking P2, Lohegaon Airport, Pune",
+    "latitude": 18.5800,
+    "longitude": 73.9180,
+    "connectors": ["Type 2", "AC Slow"]
+  },
+  {
+    "id": 12,
+    "name": "Lonavla Expressway Food Plaza Chargers",
+    "address": "Mumbai-Pune Expressway Food Plaza, Lonavla",
+    "latitude": 18.7875,
+    "longitude": 73.4010,
+    "connectors": ["CCS2", "DC Fast"]
+  },
+  {
+    "id": 13,
+    "name": "Lonavla Market EV Point",
+    "address": "Main Market Road, Lonavla",
+    "latitude": 18.7500,
+    "longitude": 73.4075,
+    "connectors": ["Type 2"]
+  },
+  {
+    "id": 14,
+    "name": "Mumbai Andheri East Chargers",
+    "address": "Andheri-Kurla Road, Andheri East, Mumbai",
+    "latitude": 19.1136,
+    "longitude": 72.8697,
+    "connectors": ["CCS2", "Type 2"]
+  },
+  {
+    "id": 15,
+    "name": "Mumbai Lower Parel Mall EV Hub",
+    "address": "High Street Phoenix, Lower Parel, Mumbai",
+    "latitude": 18.9956,
+    "longitude": 72.8259,
+    "connectors": ["CCS2", "CHAdeMO"]
+  },
+  {
+    "id": 16,
+    "name": "Mumbai Navi Seawoods Chargers",
+    "address": "Seawoods Grand Central Mall, Navi Mumbai",
+    "latitude": 19.0244,
+    "longitude": 73.0196,
+    "connectors": ["Type 2", "AC Slow"]
+  }
+]

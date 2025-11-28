@@ -1,10 +1,12 @@
 import React, { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { EVContext } from "./EVContext"; // adjust path if needed
+import { useAuth } from "../context/AuthContext";
 import "./Sidebar.css";
 
 function Sidebar() {
   const { userProfile } = useContext(EVContext);
+  const { user } = useAuth();
   const location = useLocation();
 
   const menuItems = [
@@ -26,13 +28,20 @@ function Sidebar() {
       {/* 🔹 User Info */}
       <div className="sidebar-user">
         <img
-          src={userProfile.avatar}
+          src={
+            userProfile?.avatar ||
+            "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+          }
           alt="User Avatar"
           className="sidebar-avatar"
         />
         <div className="sidebar-user-info">
-          <p className="sidebar-user-name">{userProfile.name}</p>
-          <p className="sidebar-user-email">{userProfile.email}</p>
+          <p className="sidebar-user-name">
+            {userProfile?.name || user?.name || "EV Driver"}
+          </p>
+          <p className="sidebar-user-email">
+            {userProfile?.email || user?.email || "user@example.com"}
+          </p>
         </div>
       </div>
 

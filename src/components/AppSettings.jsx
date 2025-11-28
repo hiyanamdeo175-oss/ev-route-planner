@@ -14,6 +14,7 @@ import {
   TextField,
   Button,
 } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import BatteryFullIcon from "@mui/icons-material/BatteryFull";
 import { EVContext } from "../components/EVContext";
 import { ThemeContext } from "../context/ThemeContext";
@@ -27,17 +28,39 @@ function AppSettings() {
   // 🌙 Get dark mode state from context
   const { darkMode, setDarkMode } = useContext(ThemeContext);
 
+  const theme = useTheme();
+
   const handleBatteryUpdate = () => {
     setBattery(newBattery);
     setRange(Math.round((newBattery / 100) * 270));
   };
 
   return (
-    <Box display="flex" justifyContent="center" mt={4}>
-      <Card sx={{ width: 500, p: 3, borderRadius: 3, boxShadow: 5 }}>
+    <Box
+      sx={{
+        minHeight: "100vh",
+        bgcolor: theme.palette.background.default,
+        color: theme.palette.text.primary,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        px: 2,
+        py: 4,
+      }}
+    >
+      <Card
+        sx={{
+          width: 520,
+          borderRadius: 4,
+          boxShadow: "0 24px 60px rgba(0,0,0,0.7)",
+          bgcolor: theme.palette.background.paper,
+          border: "1px solid rgba(148,163,184,0.5)",
+          p: 3,
+        }}
+      >
         <CardContent>
-          <Typography variant="h4" gutterBottom fontWeight="bold">
-            App Settings
+          <Typography variant="h5" gutterBottom fontWeight="bold">
+            App settings
           </Typography>
 
           {/* ⚡ Battery Section */}
