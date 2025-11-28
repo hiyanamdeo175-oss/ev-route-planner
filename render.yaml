@@ -1,10 +1,9 @@
 services:
   - type: web
     name: ev-backend
-    root: server
     env: node
-    buildCommand: "npm install"
-    startCommand: "npm start"
+    buildCommand: "cd server && npm install"
+    startCommand: "cd server && npm start"
     envVars:
       - key: NODE_VERSION
         value: "18"
